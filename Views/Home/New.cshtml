@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "New Activity";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Dojo Activity Center</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="/home">Home</a>                        
+        </li>
+    </ul>
+    <a style="color: black;" class="nav-link" href="/logout">Log Off</a>
+</nav>
+@model NewActivity
+<h1>Create an Activity!</h1>
+<form asp-action="Create" asp-controller="Home" method="post">
+    <span asp-validation-for="Title" style="color: red;"></span>
+    <span asp-validation-for="Time" style="color: red;"></span>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Title:</span>
+        </div>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Title goes here">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Time:</span>
+        </div>
+        <input asp-for="Time" type="time" class="form-control">
+    </div>
+    <span asp-validation-for="Date" style="color: red"></span>
+    <span asp-validation-for="Duration" style="color: red"></span>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Date:</span>
+        </div>
+        <input asp-for="Date" type="date" class="form-control">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Duration:</span>
+        </div>
+        <input asp-for="Duration" type="text" placeholder="Enter Duration here" class="form-control">
+        <select asp-for="DurationUnit">
+            <option selected="selected">Hours</option>
+            <option>Minutes</option>
+            <option>Days</option>
+        </select>
+    </div>
+    <span asp-validation-for="Description" style="color: red"></span>
+    <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Description:</span>
+            </div>
+        <textarea asp-for="Description" class="form-control">Insert Description here</textarea>
+    </div>
+    <button style="float: right;" class="btn btn-outline-success">Create Activity</button>
+</form>

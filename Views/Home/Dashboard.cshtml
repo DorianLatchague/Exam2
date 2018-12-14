@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Dojo Activity Center</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" style="font-weight: bold;" href="/home">Home</a>                        
+        </li>
+    </ul>
+    <a style="color: black;" class="nav-link">Welcome @ViewBag.User.FirstName</a> 
+    <a style="color: black;" class="nav-link" href="/logout">Log Off</a>
+</nav>
+@model List<Activities>
+<span style="color: red;">@TempData["Error"]</span>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Activity</th>
+            <th>Date and Time</th>
+            <th>Duration</th>
+            <th>Event Coordinator</th>
+            <th>Number of Participants</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Activities activity in @Model)
+        {
+            <tr>
+                <td><a href="/home/activity/@activity.ActivitiesId">@activity.Title</a></td>
+                <td>@activity.DateTime.ToString("MM/dd @ hh:mmtt")</td>
+                <td>@activity.Duration @activity.DurationUnit</td>
+                <td>@activity.Creator.FirstName</td>
+                <td>@activity.Participants.Count()</td>
+                @if(@activity.Creator.UsersId == @ViewBag.User.UsersId)
+                {
+                    <td><a href="/home/delete/@activity.ActivitiesId">Delete</a></td>
+                }
+                else
+                {
+                    bool isTrue = false;
+                    @foreach(Participants participant in activity.Participants)
+                    {
+                        @if(@participant.UsersId == @ViewBag.User.UsersId)
+                        {
+                            isTrue = true;
+                        }
+                    }
+                    @if(isTrue == false)
+                    {
+                        <td><a href="/home/participating/@activity.ActivitiesId">Join</a></td>
+                    }
+                    else
+                    {
+                        <td><a href="/home/notparticipating/@activity.ActivitiesId">Leave</a></td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<a class="btn btn-outline-primary" style="float: right;" href="/home/new">Add New Activity!</a>

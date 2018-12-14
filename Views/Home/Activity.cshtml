@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Activity";
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">Dojo Activity Center</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="/home">Home</a>                        
+        </li>
+    </ul>
+    <a style="color: black;" class="nav-link" href="/logout">Log Off</a>
+</nav>
+@model Activities
+<div>
+    <h1>@Model.Title</h1>
+    @if(@Model.Creator.UsersId == @ViewBag.User.UsersId)
+    {
+        <td><a style="float: right;" class="btn btn-outline-danger" href="/home/delete/@Model.ActivitiesId">Delete</a></td>
+    }
+    else
+    {
+        bool isTrue = false;
+        @foreach(Participants participant in @Model.Participants)
+        {
+            @if(@participant.UsersId == @ViewBag.User.UsersId)
+            {
+                isTrue = true;
+            }
+        }
+        @if(isTrue == false)
+        {
+            <td><a style="float: right;" class="btn btn-outline-primary" href="/home/participating/@Model.ActivitiesId">Join</a></td>
+        }
+        else
+        {
+            <td><a style="float: right;" class="btn btn-outline-danger" href="/home/notparticipating/@Model.ActivitiesId">Leave</a></td>
+        }
+    }
+</div>
+<h3>Event Coordinator: @Model.Creator.FirstName</h3>
+<h3>Description:</h3>
+<p>@Model.Description</p>
+<h3>Participants:</h3>
+<ul>
+    @foreach(Participants participant in @Model.Participants)
+    {
+        <li>@participant.User.FirstName</li>
+    }
+</ul>
